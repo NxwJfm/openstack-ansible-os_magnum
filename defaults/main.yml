@@ -309,3 +309,5 @@ magnum_pki_install_certificates:
 # Define user-provided SSL certificates
 # magnum_user_ssl_cert: <path to cert on ansible deployment host>
 # magnum_user_ssl_key: <path to cert on ansible deployment host>
+magnum_selfsigned_deploy: False
+
