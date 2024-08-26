@@ -119,6 +119,7 @@ magnum_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers | default('127.0.0.1') }}"
 magnum_oslomsg_rpc_port: "{{ oslomsg_rpc_port | default('5672') }}"
 magnum_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl | default(False) }}"
 magnum_oslomsg_rpc_userid: magnum
+magnum_oslomsg_rpc_policies: []
 # vhost name depends on value of oslomsg_rabbit_quorum_queues. In case quorum queues
 # are not used - vhost name will be prefixed with leading `/`.
 magnum_oslomsg_rpc_vhost:
@@ -130,6 +131,7 @@ magnum_oslomsg_rpc_ssl_version: "{{ oslomsg_rpc_ssl_version | default('TLSv1_2')
 magnum_oslomsg_rpc_ssl_ca_file: "{{ oslomsg_rpc_ssl_ca_file | default('') }}"
 
 # Notify
+magnum_oslomsg_notify_configure: "{{ oslomsg_notify_configure | default(magnum_ceilometer_enabled) }}"
 magnum_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group | default('rabbitmq_all') }}"
 magnum_oslomsg_notify_setup_host: "{{ (magnum_oslomsg_notify_host_group in groups) | ternary(groups[magnum_oslomsg_notify_host_group][0], 'localhost') }}"
 magnum_oslomsg_notify_transport: "{{ oslomsg_notify_transport | default('rabbit') }}"
@@ -141,9 +143,14 @@ magnum_oslomsg_notify_password: "{{ magnum_oslomsg_rpc_password }}"
 magnum_oslomsg_notify_vhost: "{{ magnum_oslomsg_rpc_vhost }}"
 magnum_oslomsg_notify_ssl_version: "{{ oslomsg_notify_ssl_version | default('TLSv1_2') }}"
 magnum_oslomsg_notify_ssl_ca_file: "{{ oslomsg_notify_ssl_ca_file | default('') }}"
+magnum_oslomsg_notify_policies: []
 
 ## RabbitMQ integration
 magnum_oslomsg_rabbit_quorum_queues: "{{ oslomsg_rabbit_quorum_queues | default(True) }}"
+magnum_oslomsg_rabbit_stream_fanout: "{{ oslomsg_rabbit_stream_fanout | default(magnum_oslomsg_rabbit_quorum_queues) }}"
+magnum_oslomsg_rabbit_transient_quorum_queues: "{{ oslomsg_rabbit_transient_quorum_queues | default(magnum_oslomsg_rabbit_stream_fanout) }}"
+magnum_oslomsg_rabbit_qos_prefetch_count: "{{ oslomsg_rabbit_qos_prefetch_count | default(magnum_oslomsg_rabbit_stream_fanout | ternary(10, 0)) }}"
+magnum_oslomsg_rabbit_queue_manager: "{{ oslomsg_rabbit_queue_manager | default(magnum_oslomsg_rabbit_quorum_queues) }}"
 magnum_oslomsg_rabbit_quorum_delivery_limit: "{{ oslomsg_rabbit_quorum_delivery_limit | default(0) }}"
 magnum_oslomsg_rabbit_quorum_max_memory_bytes: "{{ oslomsg_rabbit_quorum_max_memory_bytes | default(0) }}"
 

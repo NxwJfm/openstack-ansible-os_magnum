@@ -20,3 +20,7 @@
       - openstack-ansible-deploy-aio_metal-jobs
       - publish-openstack-docs-pti
       - build-release-notes-jobs-python3
+    check:
+      jobs:
+        - openstack-ansible-deploy-aio_magnum_octavia_capi_kvm-ubuntu-jammy:
+            voting: false
