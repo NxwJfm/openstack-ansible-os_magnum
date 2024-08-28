@@ -100,6 +100,13 @@
   tags:
     - magnum-install
 
+- name: Create the pem file for self signed
+  import_tasks: magnum_selfsigned.yml
+  tags:
+    - magnum-config
+    - selfsigned
+  when: magnum_selfsigned_deploy
+
 - name: Create and install SSL certificates
   include_role:
     name: pki
