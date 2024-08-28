@@ -13,6 +13,9 @@ host = {{ ansible_host }}
 # NOTE(mnaser): Remove this once the following bug is fixed
 #               https://bugs.launchpad.net/magnum/+bug/1746510
 send_cluster_metrics = False
+{% if magnum_selfsigned_deploy | bool %}
+openstack_ca_file = /etc/openstack_certs.pem
+{% endif %}
 
 [barbican_client]
 region_name = {{ magnum_barbican_service_region }}
