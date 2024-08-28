@@ -1,0 +1,16 @@
+---
+- set_fact: 
+    _certs:
+      - /etc/openstack_deploy/pki/roots/ExampleCorpIntermediate/certs/ExampleCorpIntermediate-1000.crt
+      - /etc/openstack_deploy/pki/roots/ExampleCorpRoot/certs/ExampleCorpRoot.crt
+
+- name: read certs
+  delegate_to: localhost
+  command: awk 1 {{ _certs | join(' ') }}
+  register: hosts_contents
+  changed_when: False
+
+- name: create certs file
+  copy:
+    dest: /etc/openstack_certs.pem
+    content: "{{ hosts_contents.stdout_lines |join('\n') }}"
